@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>ONCALL</title>
+</head>
+
+<body>
+    <heading>
+        <h2 style="text-align: center;"> ONCALL</h2>
+    </heading>
+    <div id="error-msg" style="color: red;"></div>
+    <main>
+        <label>
+            Start date:
+        </label>
+        <input type="date" id="start-date-input">
+        <label>
+            End date:
+        </label>
+        <input type="date" id="end-date-input">
+        <label>
+            Team:
+        </label>
+        <input type="text" id="team-input">
+
+        Primary:
+        </label>
+        <input type="text" id="primary-input">
+        <label>
+            Secondary:
+        </label>
+        <input type="text" id="secondary-input">
+        <button id="add-btn">Add</button>
+        <label>
+
+            <div>
+                <label>
+                    Search by name:
+                </label>
+                <input type="text" id="search-by-name">
+                <button id="search-by-name-btn">Search</button>
+            </div>
+            <div>
+                <label>
+                    Search by team:
+                </label>
+                <input type="text" id="search-by-team">
+                <button id="search-by-team-btn">Search</button>
+            </div>
+            <div>
+                <label>
+                    Search by date range:
+                </label>
+                <input type="date" id="search-by-date-start">
+                -
+                <input type="date" id="search-by-date-end">
+                <button id="search-by-date-btn">Search</button>
+            </div>
+            <div>
+                <button id="view-all-btn">View all</button>
+            </div>
+            <table id="table">
+                <thead>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Team</th>
+                    <th>Primary</th>
+                    <th>Secondary</th>
+                    <th>Modify</th>
+                    <th>Delete</th>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+    </main>
+    <script src=index.js></script>
+</body>
+
+</html>
