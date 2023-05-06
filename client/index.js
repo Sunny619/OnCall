@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('http://localhost:5000/getAll')
+    fetch('/getAll')
         .then(response => response.json())
         .then(data => loadHTMLTable(data['data']['rows']));
 
@@ -12,7 +12,7 @@ document.querySelector('#search-by-name-btn').addEventListener
 ('click', function(event){
     console.log("clciked")
     const val = document.querySelector('#search-by-name').value;
-    fetch('http://localhost:5000/searchByName', {
+    fetch('/searchByName', {
         headers: {
             'Content-type': 'application/json'
         },
@@ -29,7 +29,7 @@ document.querySelector('#search-by-team-btn').addEventListener
 ('click', function(event){
     console.log("clciked team")
     const val = document.querySelector('#search-by-team').value;
-    fetch('http://localhost:5000/searchByTeam', {
+    fetch('/searchByTeam', {
         headers: {
             'Content-type': 'application/json'
         },
@@ -47,7 +47,7 @@ document.querySelector('#search-by-date-btn').addEventListener
     console.log("clicked date search")
     const start_date = document.querySelector('#search-by-date-start').value;
     const end_date = document.querySelector('#search-by-date-end').value;
-    fetch('http://localhost:5000/searchByDate', {
+    fetch('/searchByDate', {
         headers: {
             'Content-type': 'application/json'
         },
@@ -119,7 +119,7 @@ function displayModifyButtons(row)
 function ModifyRow(val, col,year, start_date, end_date, team)
 {
     //console.log(date,col,val);
-    fetch('http://localhost:5000/modify', {
+    fetch('/modify', {
         headers: {
             'Content-type': 'application/json'
         },
@@ -139,7 +139,7 @@ function ModifyRow(val, col,year, start_date, end_date, team)
 }
 function deleteRow(year, start_date, end_date, team)
 {
-    fetch('http://localhost:5000/delete', {
+    fetch('/delete', {
         headers: {
             'Content-type': 'application/json'
         },
@@ -185,7 +185,7 @@ addBtn.onclick = () => {
         secondary_call: secondary,
         team:team
     }));
-    fetch('http://localhost:5000/insert', {
+    fetch('/insert', {
         headers: {
             'Content-type': 'application/json'
         },
@@ -267,7 +267,7 @@ function loadHTMLTable(data) {
 }
 function reloadTable()
 {
-    fetch('http://localhost:5000/getAll')
+    fetch('/getAll')
     .then(response => response.json())
     .then(data => loadHTMLTable(data['data']['rows']));
 }
