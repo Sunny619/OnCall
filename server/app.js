@@ -152,11 +152,9 @@ app.post('/searchByTeamInTeams', (req,res)=>{
   .then(data=>res.json({data:data}))
   .catch(err=> console.log(err));
 })
-app.post('/getTeams', (req,res)=>{
-  const{val} = req.body
-  //console.log(date);
+app.get('/getTeams', (req,res)=>{
   const db = dbService.getDbServiceInstance();
-  const result = db.getTeams(val);
+  const result = db.getTeams();
   result
   .then(data=>res.json({data:data}))
   .catch(err=> console.log(err));

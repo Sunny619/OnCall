@@ -286,16 +286,16 @@ class dbService {
             console.log(err)
         }
     }
-    async getTeams(val) {
+    async getTeams() {
         try {
             const response = await new Promise((resolve, reject) => {
                 const query = `select team from teams group by team;`
-                client.execute(query, [val], { prepare: true }, (err, results) => {
+                client.execute(query, (err, results) => {
                     if (err) reject(new Error(err));
                     resolve(results);
                 })
             });
-            return response['rows'];
+            return response;
         } catch (err) {
             console.log(err)
         }
