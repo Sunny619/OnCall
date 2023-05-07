@@ -217,6 +217,88 @@ class dbService {
         }
     }
 
+    // Teams
+    async getTeamAll() {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = "Select * FROM teams;"
+                client.execute(query, (err, results) => {
+                    if (err) reject(new Error(err));
+                    resolve(results);
+                })
+            });
+            //console.log(response);
+            return response;
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    
+    async insertRowTeam(rowData) {
+        const {team, name } = rowData;
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = " Insert into teams(team,name) values(?,?) IF NOT EXISTS;"
+                client.execute(query, [ team, name], { prepare: true }, (err, results) => {
+                    if (err) reject(new Error(err));
+                    resolve(results);
+                })
+            });
+            //const data = JSON.parse(response);
+            const isValid = response['rows'][0]['[applied]'];
+            //console.log(response['rows'][0]['[applied]']);
+            if (isValid)
+                return 0;
+            else
+                return 1;
+            //return isValid;
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
+    async deleteRowTeam(team, name) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = " Delete from teams where team=? and name = ?;"
+                client.execute(query, [team, name], { prepare: true }, (err, results) => {
+                    if (err) reject(new Error(err));
+                    resolve(results);
+                })
+            });
+            //console.log(response);
+            return response;
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    async searchByTeamInTeams(val) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = `select * from teams where team = ?;`
+                client.execute(query, [val], { prepare: true }, (err, results) => {
+                    if (err) reject(new Error(err));
+                    resolve(results);
+                })
+            });
+            return response['rows'];
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    async getTeams(val) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = `select team from teams group by team;`
+                client.execute(query, [val], { prepare: true }, (err, results) => {
+                    if (err) reject(new Error(err));
+                    resolve(results);
+                })
+            });
+            return response['rows'];
+        } catch (err) {
+            console.log(err)
+        }
+    }
 }
 module.exports = dbService;

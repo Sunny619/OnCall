@@ -28,7 +28,9 @@ const port = 3000;
 app.get('/',(req,res)=>{
     res.sendFile('index.html')
 });
-
+app.get('/teams',(req,res)=>{
+  res.sendFile('client/teams.html', { root: '..' })
+});
 app.post('/insert', (req,res)=>{
   const{start_date, end_date} =  req.body
   if(end_date<start_date)
@@ -115,5 +117,48 @@ app.post('/searchByDate', (req,res)=>{
   .then(data=>res.json({data:data}))
   .catch(err=> console.log(err));
   }
+})
+//Teams
+app.get('/getTeamAll', (req,res)=>{
+  const db = dbService.getDbServiceInstance();
+  const result = db.getTeamAll();
+  result
+  .then(data=>res.json({data:data}))
+  .catch(err=> console.log(err));
+})
+app.post('/insertTeam', (req,res)=>{
+  const db = dbService.getDbServiceInstance();
+  const result = db.insertRowTeam(req.body);
+  result
+  .then(data=>res.json({data:data}))
+  .catch(err=> console.log(err));
+});
+app.delete('/deleteTeam', (req,res)=>{
+  const{team, name} = req.body
+  //console.log(date);
+  const db = dbService.getDbServiceInstance();
+  const result = db.deleteRowTeam( team, name);
+  result
+  .then(data=>res.json({data:data}))
+  .catch(err=> console.log(err));
+})
+
+app.post('/searchByTeamInTeams', (req,res)=>{
+  const{val} = req.body
+  //console.log(date);
+  const db = dbService.getDbServiceInstance();
+  const result = db.searchByTeamInTeams(val);
+  result
+  .then(data=>res.json({data:data}))
+  .catch(err=> console.log(err));
+})
+app.post('/getTeams', (req,res)=>{
+  const{val} = req.body
+  //console.log(date);
+  const db = dbService.getDbServiceInstance();
+  const result = db.getTeams(val);
+  result
+  .then(data=>res.json({data:data}))
+  .catch(err=> console.log(err));
 })
 app.listen(process.env.PORT, () => console.log('App is running'));
