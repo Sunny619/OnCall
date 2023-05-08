@@ -161,6 +161,10 @@ function insertRowIntoTable(data) {
     {
         document.querySelector('#error-msg').innerHTML = "The given entry already exists";
     }
+    else if(data == 2)
+    {
+        document.querySelector('#error-msg').innerHTML = "Please enter all the fields";
+    }
 
 }
 function loadHTMLTable(data) {

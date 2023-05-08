@@ -264,7 +264,9 @@ function insertRowIntoTable(data) {
     }
     else if (data == 3) {
         document.querySelector('#error-msg').innerHTML = "End date cannot be before the start date";
-
+    }
+    else if (data ==4) {
+        document.querySelector('#error-msg').innerHTML = "Please enter all the fields";
     }
 }
 function loadHTMLTable(data) {

@@ -7,7 +7,7 @@ dotenv.config();
 const dbService = require('./dbService');
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.set('view engine', 'html')
 app.use(express.static('../client'));
 const hostname = '127.0.0.1';
@@ -25,138 +25,144 @@ const port = 3000;
 //   next()
 // });
 //create
-app.get('/',(req,res)=>{
-    res.sendFile('index.html')
+app.get('/', (req, res) => {
+  res.sendFile('index.html')
 });
-app.get('/teams',(req,res)=>{
+app.get('/teams', (req, res) => {
   res.sendFile('client/teams.html', { root: '..' })
 });
-app.post('/insert', (req,res)=>{
-  const{start_date, end_date} =  req.body
-  if(end_date<start_date)
-  {
-    res.json({data : 3});
-  }
-  else
-  {
-  const db = dbService.getDbServiceInstance();
-  //console.log(req.body);
+app.post('/insert', (req, res) => {
 
-  const result = db.insertRow(req.body);
-  result
-  .then(data=>res.json({data:data}))
-  .catch(err=> console.log(err));
+  const { start_date, end_date, team } = req.body
+  if (start_date == '' || end_date == '' || team == '') {
+    res.json({ data: 4 });
+  }
+  else if (end_date < start_date) {
+    res.json({ data: 3 });
+  }
+  else {
+    const db = dbService.getDbServiceInstance();
+    //console.log(req.body);
+
+    const result = db.insertRow(req.body);
+    result
+      .then(data => res.json({ data: data }))
+      .catch(err => console.log(err));
   }
 });
 //read
-app.get('/getAll', (req,res)=>{
+app.get('/getAll', (req, res) => {
   const db = dbService.getDbServiceInstance();
   const result = db.getAllData();
   result
-  .then(data=>res.json({data:data}))
-  .catch(err=> console.log(err));
+    .then(data => res.json({ data: data }))
+    .catch(err => console.log(err));
 })
 //update
-app.put('/modify', (req,res)=>{
+app.put('/modify', (req, res) => {
   //console.log(req.body);
-  
+
   //console.log(date);
   const db = dbService.getDbServiceInstance();
   const result = db.ModifyRow(req.body);
   result
-  .then(data=>res.json({data:data}))
-  .catch(err=> console.log(err));
+    .then(data => res.json({ data: data }))
+    .catch(err => console.log(err));
 })
 
 //delete
-app.delete('/delete', (req,res)=>{
+app.delete('/delete', (req, res) => {
   console.log(req.body);
-  const{year, start_date, end_date, team} = req.body
+  const { year, start_date, end_date, team } = req.body
   //console.log(date);
   const db = dbService.getDbServiceInstance();
   const result = db.deleteRow(year, start_date, end_date, team);
   result
-  .then(data=>res.json({data:data}))
-  .catch(err=> console.log(err));
+    .then(data => res.json({ data: data }))
+    .catch(err => console.log(err));
 })
 
 //
-app.post('/searchByName', (req,res)=>{
+app.post('/searchByName', (req, res) => {
   console.log(req.body);
-  const{val} = req.body
+  const { val } = req.body
   //console.log(date);
   const db = dbService.getDbServiceInstance();
   const result = db.searchByName(val);
   result
-  .then(data=>res.json({data:data}))
-  .catch(err=> console.log(err));
+    .then(data => res.json({ data: data }))
+    .catch(err => console.log(err));
 })
-app.post('/searchByTeam', (req,res)=>{
+app.post('/searchByTeam', (req, res) => {
   console.log(req.body);
-  const{val} = req.body
+  const { val } = req.body
   //console.log(date);
   const db = dbService.getDbServiceInstance();
   const result = db.searchByTeam(val);
   result
-  .then(data=>res.json({data:data}))
-  .catch(err=> console.log(err));
+    .then(data => res.json({ data: data }))
+    .catch(err => console.log(err));
 })
-app.post('/searchByDate', (req,res)=>{
+app.post('/searchByDate', (req, res) => {
   console.log(req.body);
-  const{start_date, end_date} = req.body
+  const { start_date, end_date } = req.body
   //console.log(date);
-  if(end_date<start_date)
-  {
-    res.json({data : 0});
+  if (end_date < start_date) {
+    res.json({ data: 0 });
   }
-  else
-  {
-  const db = dbService.getDbServiceInstance();
-  const result = db.searchByDate(start_date, end_date);
-  result
-  .then(data=>res.json({data:data}))
-  .catch(err=> console.log(err));
+  else {
+    const db = dbService.getDbServiceInstance();
+    const result = db.searchByDate(start_date, end_date);
+    result
+      .then(data => res.json({ data: data }))
+      .catch(err => console.log(err));
   }
 })
 //Teams
-app.get('/getTeamAll', (req,res)=>{
+app.get('/getTeamAll', (req, res) => {
   const db = dbService.getDbServiceInstance();
   const result = db.getTeamAll();
   result
-  .then(data=>res.json({data:data}))
-  .catch(err=> console.log(err));
+    .then(data => res.json({ data: data }))
+    .catch(err => console.log(err));
 })
-app.post('/insertTeam', (req,res)=>{
-  const db = dbService.getDbServiceInstance();
-  const result = db.insertRowTeam(req.body);
-  result
-  .then(data=>res.json({data:data}))
-  .catch(err=> console.log(err));
+app.post('/insertTeam', (req, res) => {
+  const {team, name } = req.body
+  if (team == '' || name == '') {
+    res.json({ data: 2 });
+  }
+  else {
+    const db = dbService.getDbServiceInstance();
+    const result = db.insertRowTeam(req.body);
+    result
+      .then(data => res.json({ data: data }))
+      .catch(err => console.log(err));
+  }
 });
-app.delete('/deleteTeam', (req,res)=>{
-  const{team, name} = req.body
+app.delete('/deleteTeam', (req, res) => {
+  const { team, name } = req.body
   //console.log(date);
   const db = dbService.getDbServiceInstance();
-  const result = db.deleteRowTeam( team, name);
+  const result = db.deleteRowTeam(team, name);
   result
-  .then(data=>res.json({data:data}))
-  .catch(err=> console.log(err));
+    .then(data => res.json({ data: data }))
+    .catch(err => console.log(err));
 })
 
-app.post('/searchByTeamInTeams', (req,res)=>{
-  const{val} = req.body
+app.post('/searchByTeamInTeams', (req, res) => {
+  const { val } = req.body
   //console.log(date);
   const db = dbService.getDbServiceInstance();
   const result = db.searchByTeamInTeams(val);
   result
-  .then(data=>res.json({data:data}))
-  .catch(err=> console.log(err));
+    .then(data => res.json({ data: data }))
+    .catch(err => console.log(err));
 })
-app.get('/getTeams', (req,res)=>{
+app.get('/getTeams', (req, res) => {
   const db = dbService.getDbServiceInstance();
   const result = db.getTeams();
   result
-  .then(data=>res.json({data:data}))
-  .catch(err=> console.log(err));
+    .then(data => res.json({ data: data }))
+    .catch(err => console.log(err));
 })
 app.listen(process.env.PORT, () => console.log('App is running'));
