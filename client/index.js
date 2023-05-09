@@ -107,6 +107,7 @@ document.querySelector('table tbody').addEventListener
             const val = event.target.parentNode.childNodes[0].value
             const sec =  event.target.dataset.secondary_call
             //console.log(val);
+            console.log(val,sec)
             if(val== sec)
                 document.querySelector('#error-msg').innerHTML = "primary cannot be the same as secondary";
             else
@@ -123,7 +124,8 @@ document.querySelector('table tbody').addEventListener
             //console.log(val);   
             if(val== pri)
                 document.querySelector('#error-msg').innerHTML = "primary cannot be the same as secondary";
-            ModifyRow(val, "secondary_call", year, start_date, end_date, team)
+            else
+                ModifyRow(val, "secondary_call", year, start_date, end_date, team)
         }
     });
 
@@ -309,9 +311,9 @@ function loadHTMLTable(data) {
         tableHTML += `<td>${start_date}</td>`;
         tableHTML += `<td>${end_date}</td>`;
         tableHTML += `<td>${team}</td>`;
-        tableHTML += `<td><div>${primary_call}</div><div style="display:none"><select><option value="" disabled selected>Select Primary</option></select><button class= 'modify-col-p-btn' data-year=${year} data-start_date=${start_date} data-end_date=${end_date} data-team = ${team}>Modify</button></div></td>`;
-        tableHTML += `<td><div>${secondary_call}</div><div style="display:none"><select><option value="" disabled selected>Select Secondary</option></select><button class= 'modify-col-s-btn' data-year=${year} data-start_date=${start_date} data-end_date=${end_date} data-team = ${team}>Modify</button></div></td>`;
-        tableHTML += `<td><button class= 'modify-row-btn' data-year=${year} data-start_date=${start_date} data-end_date=${end_date} data-team = ${team} data-primary_call = ${primary_call} data-secondary_call = ${secondary_call} ${dis}>Modify</button></td>`;
+        tableHTML += `<td><div>${primary_call}</div><div style="display:none"><select><option value="" disabled selected>Select Primary</option></select><button class= 'modify-col-p-btn' data-year=${year} data-start_date=${start_date} data-end_date=${end_date} data-team = ${team} data-primary_call = ${primary_call} data-secondary_call = ${secondary_call}>Modify</button></div></td>`;
+        tableHTML += `<td><div>${secondary_call}</div><div style="display:none"><select><option value="" disabled selected>Select Secondary</option></select><button class= 'modify-col-s-btn' data-year=${year} data-start_date=${start_date} data-end_date=${end_date} data-team = ${team} data-primary_call = ${primary_call} data-secondary_call = ${secondary_call}>Modify</button></div></td>`;
+        tableHTML += `<td><button class= 'modify-row-btn' data-year=${year} data-start_date=${start_date} data-end_date=${end_date} data-team = ${team}  ${dis}>Modify</button></td>`;
         tableHTML += `<td><button class= 'delete-row-btn' data-year=${year} data-start_date=${start_date} data-end_date=${end_date} data-team = ${team} >Delete</button></td>`;
         tableHTML += "</tr>";
     });
