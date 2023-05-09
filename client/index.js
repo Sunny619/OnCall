@@ -105,8 +105,12 @@ document.querySelector('table tbody').addEventListener
             const team = event.target.dataset.team
             //console.log(event.target.parentNode);
             const val = event.target.parentNode.childNodes[0].value
+            const sec =  event.target.dataset.secondary_call
             //console.log(val);
-            ModifyRow(val, "primary_call", year, start_date, end_date, team)
+            if(val== sec)
+                document.querySelector('#error-msg').innerHTML = "primary cannot be the same as secondary";
+            else
+                ModifyRow(val, "primary_call", year, start_date, end_date, team)
         }
         if (event.target.className === "modify-col-s-btn") {
             const year = event.target.dataset.year;
@@ -115,7 +119,10 @@ document.querySelector('table tbody').addEventListener
             const team = event.target.dataset.team
             //console.log(event.target.parentNode);
             const val = event.target.parentNode.childNodes[0].value
+            const pri =  event.target.dataset.primary_call;
             //console.log(val);   
+            if(val== pri)
+                document.querySelector('#error-msg').innerHTML = "primary cannot be the same as secondary";
             ModifyRow(val, "secondary_call", year, start_date, end_date, team)
         }
     });
@@ -149,6 +156,7 @@ function displayModifyButtons(row) {
 }
 function ModifyRow(val, col, year, start_date, end_date, team) {
     //console.log(date,col,val);
+
     fetch('/modify', {
         headers: {
             'Content-type': 'application/json'
@@ -164,7 +172,10 @@ function ModifyRow(val, col, year, start_date, end_date, team) {
         })
     }).then(res => res.json())
         .then(data => {
-            location.reload();
+            if(data['data'] == 0)
+                document.querySelector('#error-msg').innerHTML = "Name cannot be empty";
+            else
+                reloadTable();
         });
 }
 function deleteRow(year, start_date, end_date, team) {
@@ -181,7 +192,7 @@ function deleteRow(year, start_date, end_date, team) {
         })
     }).then(res => res.json())
         .then(data => {
-            location.reload();
+            reloadTable();
         });//insertRowIntoTable(data['data']));
 }
 
@@ -254,6 +265,7 @@ function insertRowIntoTable(data) {
     // }
     console.log(data);
     if (data == 0) {
+        document.querySelector('#error-msg').innerHTML = "";
         reloadTable();
     }
     else if (data == 1) {
@@ -268,6 +280,9 @@ function insertRowIntoTable(data) {
     else if (data ==4) {
         document.querySelector('#error-msg').innerHTML = "Please enter all the fields";
     }
+    else if (data ==5) {
+        document.querySelector('#error-msg').innerHTML = "primary cannot be the same as secondary";
+    }
 }
 function loadHTMLTable(data) {
     //data = data['rows']
@@ -280,13 +295,23 @@ function loadHTMLTable(data) {
     }
 
     data.forEach(({ year, start_date, end_date, team, primary_call, secondary_call }) => {
+        const e_date = new Date(end_date);
+        const today = new Date();
+        let dis=""
+        if(e_date<today)
+        {
+            dis="disabled"
+            console.log("disabled")
+        }
+        //console.log(today, e_date)
+
         tableHTML += "<tr>";
         tableHTML += `<td>${start_date}</td>`;
         tableHTML += `<td>${end_date}</td>`;
         tableHTML += `<td>${team}</td>`;
         tableHTML += `<td><div>${primary_call}</div><div style="display:none"><select><option value="" disabled selected>Select Primary</option></select><button class= 'modify-col-p-btn' data-year=${year} data-start_date=${start_date} data-end_date=${end_date} data-team = ${team}>Modify</button></div></td>`;
         tableHTML += `<td><div>${secondary_call}</div><div style="display:none"><select><option value="" disabled selected>Select Secondary</option></select><button class= 'modify-col-s-btn' data-year=${year} data-start_date=${start_date} data-end_date=${end_date} data-team = ${team}>Modify</button></div></td>`;
-        tableHTML += `<td><button class= 'modify-row-btn' data-year=${year} data-start_date=${start_date} data-end_date=${end_date} data-team = ${team}>Modify</button></td>`;
+        tableHTML += `<td><button class= 'modify-row-btn' data-year=${year} data-start_date=${start_date} data-end_date=${end_date} data-team = ${team} data-primary_call = ${primary_call} data-secondary_call = ${secondary_call} ${dis}>Modify</button></td>`;
         tableHTML += `<td><button class= 'delete-row-btn' data-year=${year} data-start_date=${start_date} data-end_date=${end_date} data-team = ${team} >Delete</button></td>`;
         tableHTML += "</tr>";
     });

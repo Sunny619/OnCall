@@ -33,12 +33,15 @@ app.get('/teams', (req, res) => {
 });
 app.post('/insert', (req, res) => {
 
-  const { start_date, end_date, team } = req.body
+  const { start_date, end_date, team, primary_call, secondary_call } = req.body
   if (start_date == '' || end_date == '' || team == '') {
     res.json({ data: 4 });
   }
   else if (end_date < start_date) {
     res.json({ data: 3 });
+  }
+  else if (primary_call == secondary_call) {
+    res.json({ data: 5 })
   }
   else {
     const db = dbService.getDbServiceInstance();
@@ -63,11 +66,18 @@ app.put('/modify', (req, res) => {
   //console.log(req.body);
 
   //console.log(date);
-  const db = dbService.getDbServiceInstance();
-  const result = db.ModifyRow(req.body);
-  result
-    .then(data => res.json({ data: data }))
-    .catch(err => console.log(err));
+  const { val } = req.body
+  console.log(val)
+  if (val == '') {
+    res.json({ data: 0 });
+  }
+  else {
+    const db = dbService.getDbServiceInstance();
+    const result = db.ModifyRow(req.body);
+    result
+      .then(data => res.json({ data: data }))
+      .catch(err => console.log(err));
+  }
 })
 
 //delete
@@ -127,7 +137,7 @@ app.get('/getTeamAll', (req, res) => {
     .catch(err => console.log(err));
 })
 app.post('/insertTeam', (req, res) => {
-  const {team, name } = req.body
+  const { team, name } = req.body
   if (team == '' || name == '') {
     res.json({ data: 2 });
   }
