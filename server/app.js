@@ -76,7 +76,7 @@ app.put('/modify', (req, res) => {
 
   //console.log(date);
   const { val } = req.body
-  console.log(val)
+  //console.log(val)
   if (val == '') {
     res.json({ data: 0 });
   }
@@ -91,7 +91,7 @@ app.put('/modify', (req, res) => {
 
 //delete
 app.delete('/delete', (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   const { year, start_date, end_date, team } = req.body
   //console.log(date);
   const db = dbService.getDbServiceInstance();
@@ -103,7 +103,7 @@ app.delete('/delete', (req, res) => {
 
 //
 app.post('/searchByName', (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   const { val } = req.body
   //console.log(date);
   const db = dbService.getDbServiceInstance();
@@ -113,7 +113,7 @@ app.post('/searchByName', (req, res) => {
     .catch(err => console.log(err));
 })
 app.post('/searchByTeam', (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   const { val } = req.body
   //console.log(date);
   const db = dbService.getDbServiceInstance();
@@ -123,11 +123,11 @@ app.post('/searchByTeam', (req, res) => {
     .catch(err => console.log(err));
 })
 app.post('/searchByDate', (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   const { start_date, end_date } = req.body
   //console.log(date);
   if (end_date < start_date) {
-    res.json({ data: 0 });
+    res.json({ data: -1 });
   }
   else {
     const db = dbService.getDbServiceInstance();
