@@ -3,6 +3,7 @@ const app = express()
 const cors = require('cors')
 const dotenv = require('dotenv')
 dotenv.config();
+const promMid = require('express-prometheus-middleware');
 
 const dbService = require('./dbService');
 app.use(cors());
@@ -13,6 +14,14 @@ app.use(express.static('../client'));
 const hostname = '127.0.0.1';
 const port = 3000;
 
+
+app.use(promMid({
+  metricsPath: '/metrics',
+  collectDefaultMetrics: true,
+  requestDurationBuckets: [0.1, 0.5, 1, 1.5],
+  requestLengthBuckets: [512, 1024, 5120, 10240, 51200, 102400],
+  responseLengthBuckets: [512, 1024, 5120, 10240, 51200, 102400],
+}));
 // const cassandra = require('cassandra-driver');
 // const client = new cassandra.Client({ contactPoints: ['192.168.64.8', '192.168.64.9'],localDataCenter: 'dc1', keyspace: 'oncall' });
 // const query =  `Insert into assignments(day,primarycall,secondarycall) values('2022-04-05' , 'abhi','sun');`;

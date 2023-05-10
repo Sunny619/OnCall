@@ -3,6 +3,7 @@
     "cassandra-driver": "^4.6.4",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "express-prometheus-middleware": "^1.2.0"
   }
 }
